@@ -9,6 +9,7 @@ const flash = require("connect-flash");
 // 引用路由器
 const routes = require('./routes')
 const usePassport = require("./config/passport");
+
 if(process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -16,14 +17,14 @@ if(process.env.NODE_ENV !== 'production') {
 require("./config/mongoose"); // need to below line 10
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: '.hbs' }));
 app.set("view engine", "hbs");
 
 app.use(
   session({
-    secret: "ThisIsMySecret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
