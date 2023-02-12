@@ -10,12 +10,15 @@ const restaurants = require('./modules/restaurants')
 
 const users = require("./modules/users"); 
 
-// 將網址結構符合 / 字串的 request 導向 home 模組 
-router.use('/', home)
+const { authenticator } = require('../middleware/auth')  // 掛載 middleware
+
 // 將網址結構符合 /todos 字串開頭的 request 導向 todos 模組 
-router.use('/restaurants', restaurants)
+router.use('/restaurants', authenticator ,restaurants)
 
 router.use("/users", users);
+
+// 將網址結構符合 / 字串的 request 導向 home 模組 
+router.use('/', authenticator , home)
 
 // 匯出路由器
 module.exports = router;
