@@ -30,19 +30,7 @@ router.get("/:restaurantId/edit", (req, res) => {
 router.put("/:restaurantId", (req, res) => {
   const userId = req.user._id;
   const _id = req.params.restaurantId;
-  Restaurant.findOne({ _id, userId }) 
-    .then((restaurantData) => {
-      restaurantData.name = req.body.name;
-      restaurantData.name_en = req.body.name_en;
-      restaurantData.category = req.body.category;
-      restaurantData.image = req.body.image;
-      restaurantData.location = req.body.location;
-      restaurantData.phone = req.body.phone;
-      restaurantData.google_map = req.body.google_map;
-      restaurantData.rating = req.body.rating;
-      restaurantData.description = req.body.description;
-      return restaurantData.save();
-    })
+  Restaurant.findByIdAndUpdate({ _id, userId }, req.body)
     .then(() => res.redirect(`/restaurants/${_id}`))
     .catch((err) => console.log(err));
 });
